@@ -40,25 +40,19 @@
       .toLowerCase();
   }
 
-  function setStatus(message, type = "info") {
-    statusEl.textContent = message;
+function setStatus(message, type = "info") {
+  statusEl.textContent = message;
 
-    // type에 따라 테두리/배경 느낌만 살짝 변경 (CSS 변수 기반)
-    // CSS를 더 건드리지 않으려면 inline 스타일로 최소 변경
-    if (type === "error") {
-      statusEl.style.borderColor = "rgba(255, 107, 107, 0.45)";
-      statusEl.style.background = "rgba(255, 107, 107, 0.06)";
-      statusEl.style.color = "rgba(255, 255, 255, 0.80)";
-    } else if (type === "success") {
-      statusEl.style.borderColor = "rgba(143, 240, 164, 0.42)";
-      statusEl.style.background = "rgba(143, 240, 164, 0.06)";
-      statusEl.style.color = "rgba(255, 255, 255, 0.85)";
-    } else {
-      statusEl.style.borderColor = "rgba(255,255,255,0.18)";
-      statusEl.style.background = "rgba(5, 8, 16, 0.50)";
-      statusEl.style.color = "rgba(255,255,255,0.65)";
-    }
+  // 클래스 초기화
+  statusEl.classList.remove("success", "error");
+
+  if (type === "success") {
+    statusEl.classList.add("success");
+  } else if (type === "error") {
+    statusEl.classList.add("error");
   }
+}
+
 
   function hideResult() {
     resultEl.hidden = true;

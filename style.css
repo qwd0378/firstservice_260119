@@ -271,3 +271,29 @@ button.secondary:hover{
     gap: 6px;
   }
 }
+/* =========================
+   Status Color Fix
+   ========================= */
+
+/* 기본 상태 */
+.status{
+  background: #f8fafc;
+  color: #374151;          /* 진한 회색 */
+  border: 1px dashed #d1d5db;
+}
+
+/* 성공 */
+.status.success{
+  background: #2563eb;     /* 진한 블루 */
+  color: #ffffff;          /* 흰색 글자 */
+  border: 1px solid #1d4ed8;
+  font-weight: 600;
+}
+
+/* 오류 */
+.status.error{
+  background: #dc2626;     /* 레드 */
+  color: #ffffff;
+  border: 1px solid #b91c1c;
+  font-weight: 600;
+}
