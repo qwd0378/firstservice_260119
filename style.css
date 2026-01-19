@@ -1,0 +1,273 @@
+/* =========================
+   Classic Light Dev UI
+   ========================= */
+
+:root{
+  --bg: #f4f6fb;
+  --panel: #ffffff;
+  --panel-soft: #f8f9fd;
+
+  --border: #d7dbea;
+  --border-strong: #c5cbe0;
+
+  --text: #1f2937;        /* 거의 블랙 */
+  --muted: #4b5563;       /* 회색 텍스트 */
+  --hint: #6b7280;
+
+  --accent: #2563eb;      /* IDE 느낌 블루 */
+  --accent-soft: #e0e7ff;
+
+  --danger: #dc2626;
+  --ok: #16a34a;
+
+  --shadow: 0 8px 24px rgba(0,0,0,0.08);
+  --radius: 12px;
+}
+
+*{ box-sizing: border-box; }
+html, body { height: 100%; }
+
+body{
+  margin: 0;
+  background:
+    linear-gradient(180deg, #eef2ff 0%, var(--bg) 60%, #eef2ff 100%);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system,
+               "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+}
+
+/* subtle grid (IDE 느낌) */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.15;
+  background-image:
+    linear-gradient(to right, #e5e7f2 1px, transparent 1px),
+    linear-gradient(to bottom, #e5e7f2 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* =========================
+   Layout
+   ========================= */
+
+.container{
+  width: min(960px, calc(100% - 40px));
+  margin: 48px auto;
+  display: grid;
+  gap: 20px;
+}
+
+.header{
+  padding: 4px 2px;
+}
+
+.header h1{
+  margin: 0 0 6px 0;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.sub{
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* =========================
+   Card
+   ========================= */
+
+.card{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 20px 18px;
+}
+
+.cardTitle{
+  margin: 0 0 14px 0;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardTitle::before{
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* =========================
+   Form
+   ========================= */
+
+.form{
+  display: grid;
+  gap: 14px;
+}
+
+.field{
+  display: grid;
+  gap: 6px;
+}
+
+label{
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+input{
+  padding: 12px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  font-family: ui-monospace, SFMono-Regular, Menlo,
+               Consolas, "Liberation Mono", monospace;
+}
+
+input::placeholder{
+  color: #9ca3af;
+}
+
+input:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.hint{
+  font-size: 12px;
+  color: var(--hint);
+}
+
+/* =========================
+   Buttons
+   ========================= */
+
+.actions{
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+button{
+  padding: 11px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .12s ease, background .12s ease;
+}
+
+button:hover{
+  background: #1d4ed8;
+  box-shadow: 0 6px 16px rgba(37,99,235,0.25);
+}
+
+button:active{
+  transform: translateY(1px);
+}
+
+button.secondary{
+  background: #ffffff;
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+button.secondary:hover{
+  background: var(--panel-soft);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   Status & Result
+   ========================= */
+
+.status{
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px dashed var(--border);
+  background: var(--panel-soft);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.result{
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.row{
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+}
+
+.label{
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.value{
+  font-size: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  word-break: break-all;
+}
+
+.note{
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: #1e3a8a;
+}
+
+/* =========================
+   Footer
+   ========================= */
+
+.footer{
+  text-align: center;
+  font-size: 12px;
+  color: var(--hint);
+  margin-top: 10px;
+}
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 520px){
+  .container{
+    margin: 32px auto;
+    width: calc(100% - 24px);
+  }
+  .row{
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
