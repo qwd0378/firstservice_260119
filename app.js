@@ -43,7 +43,7 @@
 function setStatus(message, type = "info") {
   statusEl.textContent = message;
 
-  // 클래스 초기화
+  // 이전 상태 클래스 제거
   statusEl.classList.remove("success", "error");
 
   if (type === "success") {
@@ -52,6 +52,7 @@ function setStatus(message, type = "info") {
     statusEl.classList.add("error");
   }
 }
+
 
 
   function hideResult() {

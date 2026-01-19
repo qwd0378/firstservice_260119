@@ -10,11 +10,11 @@
   --border: #d7dbea;
   --border-strong: #c5cbe0;
 
-  --text: #1f2937;        /* 거의 블랙 */
-  --muted: #4b5563;       /* 회색 텍스트 */
+  --text: #1f2937;
+  --muted: #4b5563;
   --hint: #6b7280;
 
-  --accent: #2563eb;      /* IDE 느낌 블루 */
+  --accent: #2563eb;
   --accent-soft: #e0e7ff;
 
   --danger: #dc2626;
@@ -29,24 +29,10 @@ html, body { height: 100%; }
 
 body{
   margin: 0;
-  background:
-    linear-gradient(180deg, #eef2ff 0%, var(--bg) 60%, #eef2ff 100%);
+  background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 60%);
   color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system,
                "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
-}
-
-/* subtle grid (IDE 느낌) */
-body::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.15;
-  background-image:
-    linear-gradient(to right, #e5e7f2 1px, transparent 1px),
-    linear-gradient(to bottom, #e5e7f2 1px, transparent 1px);
-  background-size: 36px 36px;
 }
 
 /* =========================
@@ -58,10 +44,6 @@ body::before{
   margin: 48px auto;
   display: grid;
   gap: 20px;
-}
-
-.header{
-  padding: 4px 2px;
 }
 
 .header h1{
@@ -85,7 +67,7 @@ body::before{
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 20px 20px 18px;
+  padding: 20px;
 }
 
 .cardTitle{
@@ -126,25 +108,17 @@ label{
 }
 
 input{
-  padding: 12px 12px;
+  padding: 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: #ffffff;
   font-size: 14px;
-  color: var(--text);
   outline: none;
-  transition: border-color .15s ease, box-shadow .15s ease;
-  font-family: ui-monospace, SFMono-Regular, Menlo,
-               Consolas, "Liberation Mono", monospace;
-}
-
-input::placeholder{
-  color: #9ca3af;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
 }
 
 input:focus{
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.18);
 }
 
 .hint{
@@ -168,19 +142,8 @@ button{
   border: 1px solid var(--accent);
   background: var(--accent);
   color: #ffffff;
-  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform .08s ease, box-shadow .12s ease, background .12s ease;
-}
-
-button:hover{
-  background: #1d4ed8;
-  box-shadow: 0 6px 16px rgba(37,99,235,0.25);
-}
-
-button:active{
-  transform: translateY(1px);
 }
 
 button.secondary{
@@ -189,13 +152,8 @@ button.secondary{
   border-color: var(--border-strong);
 }
 
-button.secondary:hover{
-  background: var(--panel-soft);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
 /* =========================
-   Status & Result
+   Status
    ========================= */
 
 .status{
@@ -203,11 +161,29 @@ button.secondary:hover{
   border-radius: 10px;
   border: 1px dashed var(--border);
   background: var(--panel-soft);
-  color: var(--muted);
+  color: #374151;
   font-size: 13px;
-  line-height: 1.5;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
+
+/* 성공 */
+.status.success{
+  background: #2563eb;
+  color: #ffffff;
+  border: 1px solid #1d4ed8;
+  font-weight: 600;
+}
+
+/* 오류 */
+.status.error{
+  background: #dc2626;
+  color: #ffffff;
+  border: 1px solid #b91c1c;
+  font-weight: 600;
+}
+
+/* =========================
+   Result
+   ========================= */
 
 .result{
   margin-top: 12px;
@@ -219,10 +195,9 @@ button.secondary:hover{
   display: grid;
   grid-template-columns: 140px 1fr;
   gap: 12px;
-  padding: 12px 14px;
+  padding: 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: #ffffff;
 }
 
 .label{
@@ -231,10 +206,33 @@ button.secondary:hover{
   font-weight: 600;
 }
 
+.valueWrap{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .value{
+  font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: 14px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   word-break: break-all;
+}
+
+/* Copy Button */
+.copyBtn{
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copyBtn:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .note{
@@ -254,46 +252,10 @@ button.secondary:hover{
   text-align: center;
   font-size: 12px;
   color: var(--hint);
-  margin-top: 10px;
 }
 
 /* =========================
    Responsive
    ========================= */
 
-@media (max-width: 520px){
-  .container{
-    margin: 32px auto;
-    width: calc(100% - 24px);
-  }
-  .row{
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-}
-/* =========================
-   Status Color Fix
-   ========================= */
-
-/* 기본 상태 */
-.status{
-  background: #f8fafc;
-  color: #374151;          /* 진한 회색 */
-  border: 1px dashed #d1d5db;
-}
-
-/* 성공 */
-.status.success{
-  background: #2563eb;     /* 진한 블루 */
-  color: #ffffff;          /* 흰색 글자 */
-  border: 1px solid #1d4ed8;
-  font-weight: 600;
-}
-
-/* 오류 */
-.status.error{
-  background: #dc2626;     /* 레드 */
-  color: #ffffff;
-  border: 1px solid #b91c1c;
-  font-weight: 600;
-}
+@med
