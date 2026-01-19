@@ -14,6 +14,7 @@
   const statusEl = $("#status");
   const resultEl = $("#result");
   const accountIdEl = $("#accountId");
+  const copyBtn = $("#copyBtn");
 
   // =========================
   // 1) 더미 데이터(예시)
@@ -40,29 +41,26 @@
       .toLowerCase();
   }
 
-function setStatus(message, type = "info") {
-  statusEl.textContent = message;
+  function setStatus(message, type = "info") {
+    statusEl.textContent = message;
 
-  // 이전 상태 클래스 제거
-  statusEl.classList.remove("success", "error");
+    // CSS 클래스 기반으로만 상태 표현
+    statusEl.classList.remove("success", "error");
 
-  if (type === "success") {
-    statusEl.classList.add("success");
-  } else if (type === "error") {
-    statusEl.classList.add("error");
+    if (type === "success") statusEl.classList.add("success");
+    if (type === "error") statusEl.classList.add("error");
   }
-}
-
-
 
   function hideResult() {
     resultEl.hidden = true;
     accountIdEl.textContent = "-";
+    if (copyBtn) copyBtn.disabled = true;
   }
 
   function showResult(accountId) {
     accountIdEl.textContent = accountId;
     resultEl.hidden = false;
+    if (copyBtn) copyBtn.disabled = false;
   }
 
   // =========================
@@ -72,16 +70,9 @@ function setStatus(message, type = "info") {
     const no = normalizeStudentNo(studentNoRaw);
     const name = normalizeName(studentNameRaw);
 
-    // 검증
-    if (!no) {
-      return { ok: false, reason: "학번을 숫자로 입력하세요." };
-    }
-    if (no.length < 4) {
-      return { ok: false, reason: "학번이 너무 짧습니다." };
-    }
-    if (!name) {
-      return { ok: false, reason: "이름을 입력하세요." };
-    }
+    if (!no) return { ok: false, reason: "학번을 숫자로 입력하세요." };
+    if (no.length < 4) return { ok: false, reason: "학번이 너무 짧습니다." };
+    if (!name) return { ok: false, reason: "이름을 입력하세요." };
 
     const key = `${no}|${name}`;
     const accountId = DB.get(key);
@@ -89,12 +80,33 @@ function setStatus(message, type = "info") {
     if (!accountId) {
       return { ok: false, reason: "일치하는 정보가 없습니다. 학번/이름을 다시 확인하세요." };
     }
-
     return { ok: true, accountId };
   }
 
   // =========================
-  // 4) 이벤트
+  // 4) 복사 기능
+  // =========================
+  async function copyToClipboard(text) {
+    // secure context(https/localhost)면 최신 API 사용
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+
+    // fallback
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    ta.setAttribute("readonly", "");
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
+
+  // =========================
+  // 5) 이벤트
   // =========================
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -119,9 +131,24 @@ function setStatus(message, type = "info") {
   form.addEventListener("reset", () => {
     hideResult();
     setStatus("학번과 이름을 입력하고 검색하세요.", "info");
-    // UX: reset 후 학번 입력으로 포커스
     setTimeout(() => studentNoEl.focus(), 0);
   });
+
+  if (copyBtn) {
+    copyBtn.disabled = true;
+
+    copyBtn.addEventListener("click", async () => {
+      const text = accountIdEl.textContent.trim();
+      if (!text || text === "-") return;
+
+      try {
+        await copyToClipboard(text);
+        setStatus("계정 ID가 클립보드에 복사되었습니다.", "success");
+      } catch (err) {
+        setStatus("복사에 실패했습니다. 텍스트를 드래그해서 복사해 주세요.", "error");
+      }
+    });
+  }
 
   // 초기 상태
   hideResult();
